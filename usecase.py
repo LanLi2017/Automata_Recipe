@@ -140,6 +140,11 @@ def main_wf():
                 pk_values_af = pk_v_af[fk]
                 per_matching_after[fk] = cal_matching_perc(pk_values_af, values_af)
             print(f'After the cleaning, the percentage of inclusion dependency --> {per_matching_after}')
+    with open('percentage matching changes output.txt','w')as f:
+        f.write(f'Before the cleaning, the percentage of inclusion dependency --> {per_matching_bef}\n')
+        f.write(f'After the cleaning, the percentage of inclusion dependency --> {per_matching_after}')
+
+
 
 
 def main():
