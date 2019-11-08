@@ -1,0 +1,11 @@
+SELECT Mname from movie WHERE Tomatometer=0.99;
+SELECT Mname FROM movie WHERE Director='Ang Lee';
+SELECT Tomatometer FROM movie WHERE Mname='Gemini man' AND Director='Ang Lee';
+SELECT release_date FROM release WHERE Mname='Toy story 4';
+SELECT Rating from movie WHERE Mname='Toy story 4';
+SELECT headquarters FROM company WHERE Cname='Walt Disney Pictures';
+SELECT company.headquarters FROM company JOIN release ON release.Cname='Parasite;GISAENGCHUNG;Hanja';
+SELECT FoundedDate FROM company JOIN release on release.Cname=company.Cname WHERE release_date='July 19,2019';
+SELECT Tomatometer FROM movie JOIN release ON release.Mname=movie.Mname WHERE Cname='Paramount pictures';
+SELECT Rating FROM movie JOIN release ON release.Mname=movie.Mname JOIN company ON company.Cname=release.Cname WHERE
+company.headquarters='500 South Buena Vista Street,Burbank,California,United States';
