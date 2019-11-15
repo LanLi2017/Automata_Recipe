@@ -1,0 +1,173 @@
+[
+    {
+        "op": "core/text-transform",
+        "description": "Text transform on cells in column Mname using expression value.toTitlecase()",
+        "engineConfig": {
+            "mode": "row-based",
+            "facets": []
+        },
+        "columnName": "Mname",
+        "expression": "value.toTitlecase()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-split",
+        "description": "Split column Mname by separator",
+        "engineConfig": {
+            "mode": "row-based",
+            "facets": []
+        },
+        "columnName": "Mname",
+        "guessCellType": true,
+        "removeOriginalColumn": true,
+        "mode": "separator",
+        "separator": ";",
+        "regex": false,
+        "maxColumns": 0
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Text transform on cells in column Mname 2 using expression value.toUppercase()",
+        "engineConfig": {
+            "mode": "row-based",
+            "facets": []
+        },
+        "columnName": "Mname 2",
+        "expression": "value.toUppercase()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Text transform on cells in column Mname 3 using expression value.toTitlecase()",
+        "engineConfig": {
+            "mode": "row-based",
+            "facets": []
+        },
+        "columnName": "Mname 3",
+        "expression": "value.toTitlecase()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column Mname 1",
+        "columnName": "Mname 1"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column Mname 2",
+        "columnName": "Mname 2"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column Mname 3",
+        "columnName": "Mname 3"
+    },
+    {
+        "op": "core/column-split",
+        "description": "Split column Mname by separator",
+        "engineConfig": {
+            "mode": "row-based",
+            "facets": []
+        },
+        "columnName": "Mname",
+        "guessCellType": true,
+        "removeOriginalColumn": true,
+        "mode": "separator",
+        "separator": ",",
+        "regex": false,
+        "maxColumns": 0
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Text transform on cells in column Mname 2 using expression value.toTitlecase()",
+        "engineConfig": {
+            "mode": "row-based",
+            "facets": []
+        },
+        "columnName": "Mname 2",
+        "expression": "value.toTitlecase()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column Mname 1",
+        "columnName": "Mname 1"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column Mname 2",
+        "columnName": "Mname 2"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Text transform on cells in column Director using expression value.toTitlecase()",
+        "engineConfig": {
+            "mode": "row-based",
+            "facets": []
+        },
+        "columnName": "Director",
+        "expression": "value.toTitlecase()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-split",
+        "description": "Split column Cname by separator",
+        "engineConfig": {
+            "mode": "row-based",
+            "facets": []
+        },
+        "columnName": "Cname",
+        "guessCellType": true,
+        "removeOriginalColumn": true,
+        "mode": "separator",
+        "separator": "/",
+        "regex": false,
+        "maxColumns": 0
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Text transform on cells in column Cname 1 using expression value.toTitlecase()",
+        "engineConfig": {
+            "mode": "row-based",
+            "facets": []
+        },
+        "columnName": "Cname 1",
+        "expression": "value.toTitlecase()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Text transform on cells in column Cname 1 using expression value.trim()",
+        "engineConfig": {
+            "mode": "row-based",
+            "facets": []
+        },
+        "columnName": "Cname 1",
+        "expression": "value.trim()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column Cname 1",
+        "columnName": "Cname 1"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column Cname 2",
+        "columnName": "Cname 2"
+    }
+]

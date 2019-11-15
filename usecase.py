@@ -1,3 +1,6 @@
+import glob
+import json
+import os
 from collections import Counter, defaultdict
 from functools import partial
 from itertools import groupby
@@ -58,7 +61,7 @@ def ICs(pk,tb,cur):
     return values
 
 
-def main_wf():
+def detect_wf():
     '''
     
     :return: percentage of matching before and after the data cleaning.
@@ -145,10 +148,68 @@ def main_wf():
         f.write(f'After the cleaning, the percentage of inclusion dependency --> {per_matching_after}')
 
 
+def Automata_Recipe(dbname):
+    '''
+    get_fk_name(cur,table)
+    -  cur: database name 
+    input multiple JSON files
+    :return: new JSON file 
+    '''
+    conn = sqlite3.connect(dbname)
+
+    tables = ['movie', 'company', 'release']
+
+    # in the further , this would be more complicated
+    relation_table={}
+
+    with conn:
+        cur = conn.cursor()
+        for tb in tables:
+            fk=get_fk_names(cur,tb)
+            if fk:
+               relation_table= fk
+               tables.remove(tb)
+    # for new JSON file
+    dict_list=[]
+
+    # files=glob.glob('recipe/*.json')
+    # files=os.walk('recipe')[2]
+    # print(files)
+    for tb in tables:
+        colname=[_ for _ in relation_table[tb]]
+        with open('recipe/'+tb+'.json','rt')as f:
+            data=f.read()
+            j_data = json.loads(data)
+            for dicts in j_data:
+                try:
+                    if dicts.values() in colname:
+                        print(dicts['columnName'])
+                        dict_list.append(dicts)
+                except:
+                    pass
+    #
+    # for file in os.walk('recipe/'):
+    #     print(file)
+    #     file1=file.split('.')[0]
+    #     colname=[_ for _ in relation_table[file1]]
+    #     if file1 in tables:
+    #         with open(file,'r')as f:
+    #             data=f.read()
+    #             j_data=json.loads(data)
+    #             for dicts in j_data:
+    #                 try:
+    #                     if dicts['columnName'] in colname:
+    #                         print(dicts['columnName'])
+    #                         dict_list.append(dicts)
+    #                 except:
+    #                     pass
+    with open('Automata_recipe.json','w')as new_f:
+        new_f.write(json.dumps(dict_list,indent=4))
 
 
 def main():
-    main_wf()
+    # detect_wf()
+    Automata_Recipe('usecase.db')
 
 
 if __name__=='__main__':
