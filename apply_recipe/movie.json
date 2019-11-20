@@ -1,0 +1,28 @@
+[
+    {
+        "op": "core/text-transform",
+        "description": "Text transform on cells in column Mname using expression value.toTitlecase()",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Mname",
+        "expression": "value.toTitlecase()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Text transform on cells in column Director using expression value.toUppercase()",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Director",
+        "expression": "value.toUppercase()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+]

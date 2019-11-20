@@ -1,0 +1,41 @@
+[
+    {
+        "op": "core/text-transform",
+        "description": "Text transform on cells in column Cname using expression value.toUppercase()",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Cname",
+        "expression": "value.toUppercase()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Text transform on cells in column FoundedDate using expression value.toDate()",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "FoundedDate",
+        "expression": "value.toDate()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Text transform on cells in column Headquarters using expression value.toUppercase()",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Headquarters",
+        "expression": "value.toUppercase()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+]
