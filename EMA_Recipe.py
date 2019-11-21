@@ -8,7 +8,8 @@ import csv
 import json
 import pandas as pd
 
-from google.refine import refine
+# from .google.refine import refine
+from google_refine.refine import refine
 
 
 def apply_operations(project_id,file_path):
@@ -98,11 +99,11 @@ def prompt_option(options):
 
 def main():
     '''
-    movie id: 2269438878043
-    company id: 2134678388072
+    movie id: 1577494072412
+    company id: 1832143054149
     :return:
     '''
-    pro_id='2245783919182'
+    pro_id='1661067566361'
     list_dicts=[]
     while True:
         choice=prompt_option([

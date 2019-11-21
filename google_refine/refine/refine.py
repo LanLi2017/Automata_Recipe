@@ -31,8 +31,8 @@ import urllib.parse as urlparse
 
 import requests
 
-from google.refine import facet
-from google.refine import history
+from google_refine.refine import facet
+from google_refine.refine import history
 
 REFINE_HOST = os.environ.get('OPENREFINE_HOST', os.environ.get('GOOGLE_REFINE_HOST', '127.0.0.1'))
 REFINE_PORT = os.environ.get('OPENREFINE_PORT', os.environ.get('GOOGLE_REFINE_PORT', '3333'))
@@ -57,11 +57,9 @@ class RefineServer:
 
     def urlopen(self, command, data=None, params=None, project_id=None):
         """Open a Refine URL and with optional query params and POST data.
-
         data: POST data dict
         param: query params dict
         project_id: project ID as string
-
         Returns requests.Response."""
         url = self.server + '/command/core/' + command
         if data is None:
@@ -232,7 +230,7 @@ class Refine:
             process_quotes=True,
             store_blank_cells_as_nulls=True,
             include_file_sources=False,
-            **opts,
+            **opts
     ):
 
         if (project_file and project_url) or (not project_file and not project_url):

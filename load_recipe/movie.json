@@ -3,8 +3,8 @@
         "op": "core/text-transform",
         "description": "Text transform on cells in column Mname using expression value.toTitlecase()",
         "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
+            "mode": "row-based",
+            "facets": []
         },
         "columnName": "Mname",
         "expression": "value.toTitlecase()",
@@ -14,13 +14,13 @@
     },
     {
         "op": "core/text-transform",
-        "description": "Text transform on cells in column Director using expression value.toUppercase()",
+        "description": "Text transform on cells in column Director using expression value.toTitlecase()",
         "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
+            "mode": "row-based",
+            "facets": []
         },
         "columnName": "Director",
-        "expression": "value.toUppercase()",
+        "expression": "value.toTitlecase()",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
@@ -29,11 +29,39 @@
         "op": "core/text-transform",
         "description": "Text transform on cells in column Tomatometer using expression value.toNumber()",
         "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
+            "mode": "row-based",
+            "facets": []
         },
         "columnName": "Tomatometer",
         "expression": "value.toNumber()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-split",
+        "description": "Split column Rating by separator",
+        "engineConfig": {
+            "mode": "row-based",
+            "facets": []
+        },
+        "columnName": "Rating",
+        "guessCellType": true,
+        "removeOriginalColumn": true,
+        "mode": "separator",
+        "separator": "(",
+        "regex": false,
+        "maxColumns": 0
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Text transform on cells in column Rating 2 using expression value.toLowercase()",
+        "engineConfig": {
+            "mode": "row-based",
+            "facets": []
+        },
+        "columnName": "Rating 2",
+        "expression": "value.toLowercase()",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10

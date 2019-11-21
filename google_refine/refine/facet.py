@@ -1,22 +1,6 @@
-#!/usr/bin/env python
 """
 OpenRefine Facets, Engine, and Facet Responses.
 """
-
-# Copyright (c) 2011 Paul Makepeace, Real Programmers. All rights reserved.
-
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 import json
 import re
@@ -25,8 +9,7 @@ import re
 def to_camel(attr):
     """convert this_attr_name to thisAttrName."""
     # Do lower case first letter
-    return (attr[0].lower() +
-            re.sub(r'_(.)', lambda x: x.group(1).upper(), attr[1:]))
+    return attr[0].lower() + re.sub(r'_(.)', lambda x: x.group(1).upper(), attr[1:])
 
 
 def from_camel(attr):
@@ -35,31 +18,47 @@ def from_camel(attr):
     return re.sub(r'(?<=.)([A-Z])', lambda x: '_' + x.group(1), attr).lower()
 
 
-class Facet(object):
+class Facet:
     def __init__(self, column, facet_type, **options):
-        self.type = facet_type
         self.name = column
         self.column_name = column
+        self.type = facet_type
         for k, v in options.items():
             setattr(self, k, v)
 
     def as_dict(self):
-        return dict([(to_camel(k), v) for k, v in self.__dict__.items()
-                     if v is not None])
+        return {
+            to_camel(k): v
+            for k, v in self.__dict__.items()
+            if v is not None
+        }
 
 
 class TextFilterFacet(Facet):
     def __init__(self, column, query, **options):
-        super(TextFilterFacet, self).__init__(
-            column, query=query, case_sensitive=False, facet_type='text',
-            mode='text', **options)
+        super().__init__(
+            column,
+            facet_type='text',
+            query=query,
+            case_sensitive=False,
+            mode='text',
+            **options,
+        )
 
 
 class TextFacet(Facet):
-    def __init__(self, column, selection=None, expression='value',
-                 omit_blank=False, omit_error=False, select_blank=False,
-                 select_error=False, invert=False, **options):
-        super(TextFacet, self).__init__(
+    def __init__(
+            self, column,
+            selection=None,
+            expression='value',
+            omit_blank=False,
+            omit_error=False,
+            select_blank=False,
+            select_error=False,
+            invert=False,
+            **options,
+    ):
+        super().__init__(
             column,
             facet_type='list',
             omit_blank=omit_blank,
@@ -67,9 +66,11 @@ class TextFacet(Facet):
             select_blank=select_blank,
             select_error=select_error,
             invert=invert,
-            **options)
+            **options,
+        )
         self.expression = expression
         self.selection = []
+
         if selection is None:
             selection = []
         elif not isinstance(selection, list):
@@ -85,8 +86,11 @@ class TextFacet(Facet):
         return self
 
     def exclude(self, value):
-        self.selection = [s for s in self.selection
-                          if s['v']['v'] != value]
+        self.selection = [
+            s
+            for s in self.selection
+            if s['v']['v'] != value
+        ]
         return self
 
     def reset(self):
@@ -95,59 +99,67 @@ class TextFacet(Facet):
 
 
 class BoolFacet(TextFacet):
-    def __init__(self, column, expression=None, selection=None):
+    def __init__(self, column, expression, selection=None):
         if selection is not None and not isinstance(selection, bool):
             raise ValueError('selection must be True or False.')
         if expression is None:
             raise ValueError('Missing expression')
-        super(BoolFacet, self).__init__(
-            column, expression=expression, selection=selection)
+        super().__init__(
+            column,
+            expression=expression,
+            selection=[selection],
+        )
 
 
 class StarredFacet(BoolFacet):
     def __init__(self, selection=None):
-        super(StarredFacet, self).__init__(
-            '', expression='row.starred', selection=selection)
+        super().__init__('', expression='row.starred', selection=selection)
 
 
 class FlaggedFacet(BoolFacet):
     def __init__(self, selection=None):
-        super(FlaggedFacet, self).__init__(
-            '', expression='row.flagged', selection=selection)
+        super().__init__('', expression='row.flagged', selection=selection)
 
 
 class BlankFacet(BoolFacet):
     def __init__(self, column, selection=None):
-        super(BlankFacet, self).__init__(
-            column, expression='isBlank(value)', selection=selection)
+        super().__init__(column, expression='isBlank(value)', selection=selection)
 
 
 class ReconJudgmentFacet(TextFacet):
     def __init__(self, column, **options):
-        super(ReconJudgmentFacet, self).__init__(
+        super().__init__(
             column,
-            expression=('forNonBlank(cell.recon.judgment, v, v, '
-                        'if(isNonBlank(value), "(unreconciled)", "(blank)"))'),
-            **options)
+            expression='forNonBlank(cell.recon.judgment, v, v, '
+                       'if(isNonBlank(value), "(unreconciled)", "(blank)"))',
+            **options,
+        )
 
 
 # Capitalize 'From' to get around python's reserved word.
-#noinspection PyPep8Naming
 class NumericFacet(Facet):
-    def __init__(self, column, From=None, to=None, expression='value',
-                 select_blank=True, select_error=True, select_non_numeric=True,
-                 select_numeric=True, **options):
-        super(NumericFacet, self).__init__(
+    def __init__(
+            self, column,
+            From=None, to=None,
+            expression='value',
+            select_blank=True,
+            select_error=True,
+            select_non_numeric=True,
+            select_numeric=True,
+            **options,
+    ):
+        super().__init__(
             column,
-            From=From,
-            to=to,
-            expression=expression,
             facet_type='range',
+            expression=expression,
             select_blank=select_blank,
             select_error=select_error,
             select_non_numeric=select_non_numeric,
             select_numeric=select_numeric,
-            **options)
+            **options,
+        )
+        self.From = From
+        self.to = to
 
     def reset(self):
         self.From = None
@@ -155,16 +167,17 @@ class NumericFacet(Facet):
         return self
 
 
-class FacetResponse(object):
+class FacetResponse:
     """Class for unpacking an individual facet response."""
+
     def __init__(self, facet):
         self.name = None
         for k, v in facet.items():
-            if isinstance(k, bool) or isinstance(k, basestring):
+            if isinstance(k, (bool, str)):
                 setattr(self, from_camel(k), v)
         self.choices = {}
 
-        class FacetChoice(object):
+        class FacetChoice:
             def __init__(self, c):
                 self.count = c['c']
                 self.selected = c['s']
@@ -181,17 +194,17 @@ class FacetResponse(object):
             self.base_bins = facet['baseBins']
 
 
-class FacetsResponse(object):
+class FacetsResponse:
     """FacetsResponse unpacking the compute-facets response.
-
     It has two attributes: facets & mode. Mode is either 'row-based' or
     'record-based'. facets is a list of facets produced by compute-facets, in
     the same order as they were specified in the Engine. By coupling the engine
     object with a custom container it's possible to look up the computed facet
     by the original facet's object.
     """
+
     def __init__(self, engine, facets):
-        class FacetResponseContainer(object):
+        class FacetResponseContainer:
             facets = None
 
             def __init__(self, facet_responses):
@@ -211,7 +224,7 @@ class FacetsResponse(object):
         self.mode = facets['mode']
 
 
-class Engine(object):
+class Engine:
     """An Engine keeps track of Facets, and responses to facet computation."""
 
     def __init__(self, *facets, **kwargs):
@@ -256,10 +269,11 @@ class Engine(object):
             facet.reset()
 
 
-class Sorting(object):
+class Sorting:
     """Class representing the current sorting order for a project.
-
     Used in RefineProject.get_rows()"""
+
+    # noinspection PyTypeChecker
     def __init__(self, criteria=None):
         self.criteria = []
         if criteria is None:
@@ -268,7 +282,7 @@ class Sorting(object):
             criteria = [criteria]
         for criterion in criteria:
             # A string criterion defaults to a string sort on that column
-            if isinstance(criterion, basestring):
+            if isinstance(criterion, str):
                 criterion = {
                     'column': criterion,
                     'valueType': 'string',
