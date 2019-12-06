@@ -6,6 +6,8 @@ Recipe
 '''
 import csv
 import json
+from collections import Counter
+
 import pandas as pd
 
 # from .google.refine import refine
@@ -24,6 +26,32 @@ def get_operations(project_id,rep_name):
         json.dump(res , fout,indent=4)
 
 
+def similarity(x):
+    return x[2]
+
+
+def slice_top(sequence, key_func=None):
+    """
+
+    :param sequence: input the list of lists
+    :param key_func: optional one-argument ordering function
+    :return:sliced sequence index
+    """
+    if not sequence:
+        raise ValueError('empty sequence')
+
+    if not key_func:
+        key_func = similarity
+
+    index=0
+    for item in sequence:
+        if key_func(item)==1.0:
+           # ranked list of the matching columns
+           index=sequence.index(item)
+           break
+    return index
+
+
 # schema matching
 def schema_matching(control_tb,compare_tb):
     '''
@@ -35,20 +63,31 @@ def schema_matching(control_tb,compare_tb):
     compare_tb_path=f'raw_dataset/{compare_tb}.csv'
     with open(control_tb_path,'r')as file1,\
         open(compare_tb_path,'r')as file2:
-        reader1,reader2=pd.read_csv(file1,index_col=False),pd.read_csv(file2,index_col=False)
+        table_1,table_2=pd.read_csv(file1,index_col=False),pd.read_csv(file2,index_col=False)
+        schema_matching_matric=[]
+        for col_1 in table_1.columns:
+            for col_2 in table_2.columns:
+                value_1=Counter(table_1[col_1])
+                value_2=Counter(table_2[col_2])
+                similarity = len((value_1 | value_2) - (value_1 & value_2))
+                norm_simi = similarity / (len(value_1) + len(value_2))
+                schema_matching_matric.append([col_1,col_2,norm_simi])
+        sort_sm=sorted(schema_matching_matric,key=lambda x: x[2])
         key=[]
-        for i,col1 in enumerate(reader1):
-            for j,col2 in enumerate(reader2):
-                if reader1.loc[:,col1].equals(reader2.loc[:,col2]):
-                    # print(reader1.loc[:,col1])
-                    # print(reader2.loc[:,col2])
-                    key.append(col1)
+        # take the top 2
+        index=slice_top(sort_sm)
+        res_sm=sort_sm[:index]
+        for item in res_sm:
+            key.append(item[0])
+        # key.append(res_sm,key=lambda x:x[0])
         print(key)
         return key
+
 
 # get multiple json files through or-py-client
 # extract key information
 # combine into one load_recipe
+# disjoint pre-suppose
 def Extract_Merge(fk,json_path):
     '''
 
@@ -131,9 +170,6 @@ def main():
 
     # apply through or-py-client
     apply_operations(pro_id, apply_rep_path)
-
-    # pass
-    # get_operations('1760448733111','test')
 
 
 if __name__=='__main__':
