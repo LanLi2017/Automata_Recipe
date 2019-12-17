@@ -140,9 +140,10 @@ def main():
     '''
     movie id: 1577494072412
     company id: 1832143054149
+    release id: 1661067566361
     :return:
     '''
-    pro_id='1661067566361'
+    # pro_id='1661067566361'
     list_dicts=[]
     while True:
         choice=prompt_option([
@@ -160,11 +161,13 @@ def main():
             # get the extraction part
             list_dicts+=Extract_Merge(key_list,recipe_path)
         else:
+            pro_id=input("Input the integrated project id:")
+            apply_rep_name = input("input the applying recipe name:")
+            apply_rep_path = f'apply_recipe/{apply_rep_name}.json'
 
             break
     # create new JSON file: release.json
-    apply_rep_name=input("input the applying recipe name:")
-    apply_rep_path=f'apply_recipe/{apply_rep_name}.json'
+
     with open(apply_rep_path,'w')as f:
         json.dump(list_dicts,f,indent=4)
 
