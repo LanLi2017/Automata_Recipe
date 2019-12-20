@@ -1,13 +1,13 @@
 [
     {
         "op": "core/text-transform",
-        "description": "Text transform on cells in column Cname using expression value.toUppercase()",
+        "description": "Text transform on cells in column Cname using expression value.toTitlecase()",
         "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
+            "mode": "row-based",
+            "facets": []
         },
         "columnName": "Cname",
-        "expression": "value.toUppercase()",
+        "expression": "value.toTitlecase()",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10

@@ -22,7 +22,7 @@ def apply_operations(project_id,file_path):
 def get_operations(project_id,rep_name):
     # get the json
     res = refine.RefineProject(refine.RefineServer(), project_id).get_operations()
-    with open(f'load_recipe/{rep_name}.json', 'w') as fout:
+    with open(f'load_reacipe/{rep_name}.json', 'w') as fout:
         json.dump(res , fout,indent=4)
 
 
@@ -154,6 +154,9 @@ def main():
             # get load_recipe by py-client library
             project_id = input("Input the project id: ")
             recipe_name=input("Give the load_recipe name: ")
+            '''
+            integrated ....should not be constant 
+            '''
             key_list=schema_matching('release',recipe_name)
             recipe_path=f'load_recipe/{recipe_name}.json'
             get_operations(project_id=project_id,rep_name=recipe_name)
