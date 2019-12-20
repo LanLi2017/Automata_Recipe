@@ -44,9 +44,9 @@ def project_id_file(s, sep='@'):
     return project_id,project_file
 
 
-def col_name_split(s,sep=','):
-    col_name_list=s.split(sep)
-    return col_name_list
+# def col_name_split(s,sep=','):
+#     col_name_list=s.split(sep)
+#     return col_name_list
 
 
 def Extract_parser():
@@ -85,6 +85,9 @@ def Extract_parser():
 
 def main():
     Extract_parser()
+    # input project id (2 or more) waiting to merge
+    # input the recipe name you want to give
+    # input the column name you think they're matching
 
 
 if __name__=='__main__':
